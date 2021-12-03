@@ -1,6 +1,6 @@
 import { countDepthChanges } from "./depth";
 
-describe("DAY 1 - submarine depths", () => {
+describe("Day 1 - Sonar sweep", () => {
   const measures = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
   it("returns expected increase amount", () => {

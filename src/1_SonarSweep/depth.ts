@@ -11,7 +11,6 @@ export const countDepthChanges = (measures: number[], window = 1) => {
 };
 
 const getWindow = (a: number[], i = 1, size = 1) => {
-  if (size === 1) return a[i];
   let x = 0,
     r = 0;
   while (x < size) {
