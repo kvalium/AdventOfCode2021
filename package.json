@@ -1,0 +1,15 @@
+{
+  "name": "adventOfCode2021",
+  "version": "1.0.0",
+  "description": "AoC 2021",
+  "main": "index.js",
+  "author": "JulienMonchany <j.monchany@adsoftware.fr>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.11"
+  }
+}
