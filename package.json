@@ -6,10 +6,12 @@
   "author": "JulienMonchany <j.monchany@adsoftware.fr>",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "typescript": "^4.5.2"
-  },
   "devDependencies": {
-    "@types/node": "^16.11.11"
+    "@types/jest": "^27.0.3",
+    "@types/mock-fs": "^4.13.1",
+    "@types/node": "^16.11.11",
+    "jest": "^27.4.3",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
   }
 }
