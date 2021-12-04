@@ -4,8 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: yarn
-    - name: Unit tests
-      run: yarn test --coverage
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn
+      - name: Unit tests
+        run: yarn jest --coverage
