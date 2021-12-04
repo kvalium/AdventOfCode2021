@@ -40,14 +40,14 @@ export const playBingo = (bingoGrids: BingoGrid[], pickedNumbers: number[]) => {
   return winners;
 };
 
-export const calculateWinnerScore = (
+const calculateWinnerScore = (
   grid: BingoGrid,
   drawnNumbers: number[]
 ): number =>
   grid
     .flat()
     .filter((g) => !drawnNumbers.includes(g))
-    .reduce((sum, u) => sum + u) * drawnNumbers[drawnNumbers.length - 1];
+    .reduce((s, g) => s + g) * drawnNumbers[drawnNumbers.length - 1];
 
 const updateLeaderboard = (
   leaderboard: Leaderboard,
@@ -88,8 +88,8 @@ const updateLeaderboard = (
 // get position (x,y) of each bingo grid number
 const getBingoGridCoords = (grid: BingoGrid): GridNumberCoords =>
   grid.flat().reduce(
-    (gridCoords, n, i) => ({
-      ...gridCoords,
+    (coords, n, i) => ({
+      ...coords,
       [n]: {
         x: i % 5,
         y: Math.floor(i / 5),
