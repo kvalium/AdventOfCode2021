@@ -1,5 +1,3 @@
-import { off } from "process";
-
 type Bit = "0" | "1";
 
 type BitCounter = {
@@ -14,6 +12,31 @@ export const getPowerConsumption = (diagnostic: string[] = []): number => {
   );
   return gamma * epsilon;
 };
+
+export const getLifeSupportRating = (diagnostic: string[] = []): number => {
+  const O2 = calculateO2Generator(diagnostic);
+  const CO2 = calculateCO2Generator(diagnostic);
+  return O2 * CO2;
+};
+
+const reduceDiagnostic =
+  (filter: (c: BitCounter[], pos: number) => string) =>
+  (diagnostic: string[], pos = 0, mask = ""): any => {
+    const binaryPositions = getBinaryPositions(diagnostic);
+    const bitFilter = filter(binaryPositions, pos);
+    const newMask = mask + bitFilter;
+    const filteredDiag = diagnostic.filter((d) => d.startsWith(newMask));
+    if (filteredDiag.length === 1) return parseInt(filteredDiag[0], 2);
+    return reduceDiagnostic(filter)(filteredDiag, pos + 1, newMask);
+  };
+
+const calculateO2Generator = reduceDiagnostic((c, pos) =>
+  c[pos][1].length >= c[pos][0].length ? "1" : "0"
+);
+
+const calculateCO2Generator = reduceDiagnostic((c, pos) =>
+  c[pos][1].length < c[pos][0].length ? "1" : "0"
+);
 
 const calculateGammaAndEpsilon = (
   binaryPositions: BitCounter[]

@@ -1,4 +1,4 @@
-import { getPowerConsumption } from "./diagnostic";
+import { getLifeSupportRating, getPowerConsumption } from "./diagnostic";
 
 const fakeDiagnostic = [
   "00100",
@@ -29,6 +29,12 @@ describe("Day 3 - Binary Diagnostic", () => {
       expect(() => getPowerConsumption(["0109"])).toThrowError(
         'unexpected bit encountered: "9"'
       );
+    });
+  });
+
+  describe("Part 2 - Life support rating", () => {
+    it("return expected life support rating", () => {
+      expect(getLifeSupportRating(fakeDiagnostic)).toEqual(230);
     });
   });
 });
