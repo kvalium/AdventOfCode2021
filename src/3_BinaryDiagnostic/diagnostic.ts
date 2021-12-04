@@ -13,7 +13,7 @@ export const getPowerConsumption = (diagnostic: string[] = []): number => {
   return gamma * epsilon;
 };
 
-export const getLifeSupportRating = (diagnostic: string[] = []): number => {
+export const getLifeSupportRating = (diagnostic: string[]): number => {
   const O2 = calculateO2Generator(diagnostic);
   const CO2 = calculateCO2Generator(diagnostic);
   return O2 * CO2;
@@ -55,7 +55,7 @@ const calculateGammaAndEpsilon = (
   return { gamma: parseInt(gamma, 2), epsilon: parseInt(epsilon, 2) };
 };
 
-const getBinaryPositions = (diagnostic: string[] = []): BitCounter[] => {
+const getBinaryPositions = (diagnostic: string[]): BitCounter[] => {
   if (diagnostic.length === 0) {
     return [INITIAL_BIT_POSITION];
   }
