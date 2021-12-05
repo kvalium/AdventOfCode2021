@@ -7,21 +7,89 @@ export type Vent = {
 
 type Diagram = Record<string, number>;
 
-export const getHorizontalVerticalVentDiagram = (vents: Vent[]): Diagram =>
+export const getVentDiagram = (
+  vents: Vent[],
+  onlyHorizontalOrVertical = false
+): Diagram =>
   vents.reduce(
-    (ventDiagram, v) => ({ ...ventDiagram, ...handleVent(ventDiagram, v) }),
-    {}
+    (ventDiagram, v) => ({
+      ...ventDiagram,
+      ...handleVent(ventDiagram, v, onlyHorizontalOrVertical),
+    }),
+    {} as Diagram
   );
 
-const handleVent = (diag: Diagram, vent: Vent): Diagram | undefined => {
+const handleVent = (
+  diag: Diagram,
+  vent: Vent,
+  onlyHorizontalOrVertical = false
+): Diagram => {
   if (isHorizontal(vent)) {
     return updateDiagramForHorizontalOrVertical(diag, vent);
   }
   if (isVertical(vent)) {
     return updateDiagramForHorizontalOrVertical(diag, vent, false);
   }
-  // TODO handle diagonals
-  return diag;
+  if (onlyHorizontalOrVertical) return diag;
+  return updateDiagramForDiagonal(diag, vent);
+};
+
+export const updateDiagramForDiagonal = (
+  ventDiagram: Diagram,
+  vent: Vent
+): Diagram => {
+  const diffDiag: Diagram = {};
+
+  // POSx -> POSy
+  if (vent.start.x < vent.end.x && vent.start.y < vent.end.y) {
+    let w = vent.start.x,
+      z = vent.start.y;
+    while (w <= vent.end.x) {
+      const key = "x" + w + "y" + z;
+      diffDiag[key] = ventDiagram[key] + 1 || 1;
+      w++;
+      z++;
+    }
+    return diffDiag;
+  }
+
+  // NEGx -> NEGy
+  if (vent.start.x > vent.end.x && vent.start.y > vent.end.y) {
+    let w = vent.end.x,
+      z = vent.end.y;
+    while (w <= vent.start.x) {
+      const key = "x" + w + "y" + z;
+      diffDiag[key] = ventDiagram[key] + 1 || 1;
+      w++;
+      z++;
+    }
+    return diffDiag;
+  }
+
+  // POSx -> NEGy
+  if (vent.start.x > vent.end.x && vent.start.y < vent.end.y) {
+    let w = vent.start.y,
+      z = vent.start.x;
+    while (w <= vent.end.y) {
+      const key = "x" + z + "y" + w;
+      diffDiag[key] = ventDiagram[key] + 1 || 1;
+      w++;
+      z--;
+    }
+    return diffDiag;
+  }
+
+  // if (vent.start.x < vent.end.x && vent.start.y > vent.end.y) {
+  let w = vent.start.x,
+    z = vent.start.y;
+  while (w <= vent.end.x) {
+    const key = "x" + w + "y" + z;
+    diffDiag[key] = ventDiagram[key] + 1 || 1;
+    w++;
+    z--;
+  }
+  return diffDiag;
+  // }
 };
 
 const updateDiagramForHorizontalOrVertical = (

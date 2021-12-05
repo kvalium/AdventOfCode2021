@@ -1,6 +1,6 @@
 import {
   countDiagramOverlaps,
-  getHorizontalVerticalVentDiagram,
+  getVentDiagram,
   isHorizontal,
   isVertical,
   Vent,
@@ -34,7 +34,7 @@ describe("Day 5 - Hydrothermal Venture", () => {
   });
 
   it("retrieves horizontal and vertical vents diagram", () => {
-    expect(getHorizontalVerticalVentDiagram(fakeVents)).toEqual({
+    expect(getVentDiagram(fakeVents, true)).toEqual({
       x0y9: 2,
       x1y4: 1,
       x1y9: 2,
@@ -60,8 +60,91 @@ describe("Day 5 - Hydrothermal Venture", () => {
   });
 
   it("count overlapping points", () => {
-    expect(
-      countDiagramOverlaps(getHorizontalVerticalVentDiagram(fakeVents))
-    ).toEqual(5);
+    expect(countDiagramOverlaps(getVentDiagram(fakeVents, true))).toEqual(5);
+  });
+
+  it("returns diagonal vent diagram, POSx -> POSy", () => {
+    const diagonalVentPosPos: Vent = {
+      start: {
+        x: 5,
+        y: 5,
+      },
+      end: {
+        x: 8,
+        y: 8,
+      },
+    };
+
+    expect(getVentDiagram([diagonalVentPosPos])).toEqual({
+      x5y5: 1,
+      x6y6: 1,
+      x7y7: 1,
+      x8y8: 1,
+    });
+  });
+
+  it("returns diagonal vent diagram, NEGx -> NEGy", () => {
+    const diagonalVentNegNeg: Vent = {
+      end: {
+        x: 8,
+        y: 8,
+      },
+      start: {
+        x: 5,
+        y: 5,
+      },
+    };
+
+    expect(getVentDiagram([diagonalVentNegNeg])).toEqual({
+      x5y5: 1,
+      x6y6: 1,
+      x7y7: 1,
+      x8y8: 1,
+    });
+  });
+
+  it("returns diagonal vent diagram, POSx -> NEGy", () => {
+    const diagonalVentPosNeg: Vent = {
+      end: {
+        x: 5,
+        y: 8,
+      },
+      start: {
+        x: 8,
+        y: 5,
+      },
+    };
+
+    expect(getVentDiagram([diagonalVentPosNeg])).toEqual({
+      x5y8: 1,
+      x6y7: 1,
+      x7y6: 1,
+      x8y5: 1,
+    });
+  });
+
+  it("returns diagonal vent diagram, NEGx -> POSy", () => {
+    const diagonalNegPos: Vent = {
+      start: {
+        x: 8,
+        y: 5,
+      },
+      end: {
+        x: 5,
+        y: 8,
+      },
+    };
+
+    expect(getVentDiagram([diagonalNegPos])).toEqual({
+      x5y8: 1,
+      x6y7: 1,
+      x7y6: 1,
+      x8y5: 1,
+    });
+  });
+
+  it("count overlapping points", () => {
+    const d = getVentDiagram(fakeVents);
+    expect(countDiagramOverlaps(getVentDiagram(fakeVents))).toEqual(12);
   });
 });
