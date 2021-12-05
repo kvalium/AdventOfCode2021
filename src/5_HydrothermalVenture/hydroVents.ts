@@ -34,62 +34,63 @@ const handleVent = (
   return updateDiagramForDiagonal(diag, vent);
 };
 
+const increment = (n: number) => n + 1;
+const decrement = (n: number) => n - 1;
+
 export const updateDiagramForDiagonal = (
   ventDiagram: Diagram,
   vent: Vent
 ): Diagram => {
   const diffDiag: Diagram = {};
 
-  // POSx -> POSy
   if (vent.start.x < vent.end.x && vent.start.y < vent.end.y) {
-    let w = vent.start.x,
-      z = vent.start.y;
-    while (w <= vent.end.x) {
-      const key = "x" + w + "y" + z;
-      diffDiag[key] = ventDiagram[key] + 1 || 1;
-      w++;
-      z++;
-    }
-    return diffDiag;
+    const { x, y } = vent.start,
+      to = vent.end.x;
+    return updateDiag(ventDiagram, diffDiag, x, to, y, increment, increment);
   }
 
   // NEGx -> NEGy
   if (vent.start.x > vent.end.x && vent.start.y > vent.end.y) {
-    let w = vent.end.x,
-      z = vent.end.y;
-    while (w <= vent.start.x) {
-      const key = "x" + w + "y" + z;
-      diffDiag[key] = ventDiagram[key] + 1 || 1;
-      w++;
-      z++;
-    }
-    return diffDiag;
+    const { x, y } = vent.end,
+      to = vent.start.x;
+    return updateDiag(ventDiagram, diffDiag, x, to, y, increment, increment);
   }
 
   // POSx -> NEGy
   if (vent.start.x > vent.end.x && vent.start.y < vent.end.y) {
-    let w = vent.start.y,
-      z = vent.start.x;
-    while (w <= vent.end.y) {
-      const key = "x" + z + "y" + w;
-      diffDiag[key] = ventDiagram[key] + 1 || 1;
-      w++;
-      z--;
-    }
-    return diffDiag;
+    return updateDiag(
+      ventDiagram,
+      diffDiag,
+      vent.start.y,
+      vent.end.y,
+      vent.start.x,
+      increment,
+      decrement
+    );
   }
 
-  // if (vent.start.x < vent.end.x && vent.start.y > vent.end.y) {
-  let w = vent.start.x,
-    z = vent.start.y;
-  while (w <= vent.end.x) {
-    const key = "x" + w + "y" + z;
+  // NEGx -> POSy
+  const { x, y } = vent.start,
+    to = vent.end.x;
+  return updateDiag(ventDiagram, diffDiag, x, to, y, increment, decrement);
+};
+
+const updateDiag = (
+  ventDiagram: Diagram,
+  diffDiag: Diagram,
+  x: number,
+  to: number,
+  y: number,
+  wLoop: (x: number) => number,
+  zLoop: (x: number) => number
+): Diagram => {
+  while (x <= to) {
+    const key = "x" + x + "y" + y;
     diffDiag[key] = ventDiagram[key] + 1 || 1;
-    w++;
-    z--;
+    x = wLoop(x);
+    y = zLoop(y);
   }
   return diffDiag;
-  // }
 };
 
 const updateDiagramForHorizontalOrVertical = (
