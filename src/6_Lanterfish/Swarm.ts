@@ -1,41 +1,30 @@
 export type Swarm = number[];
 
 export class LanterfishSwarm {
-  FIRST_CYCLE_ADDITIONAL_DAYS = 2;
-  FISH_CYCLE_DAYS = 6;
+  private counter: any[];
 
-  swarm: Swarm;
   constructor(swarm: Swarm) {
-    this.swarm = swarm;
+    const counter = new Array(9).fill(0);
+    swarm.forEach((x) => counter[x]++);
+    this.counter = counter;
   }
 
-  getSwarm = () => this.swarm;
-  setSwarm = (s: Swarm) => {
-    this.swarm = s;
-  };
+  count = () => this.counter.reduce((sum, c) => sum + c);
 
   addDays = (days: number) => {
-    for (let i = 0; i < days; i++) {
-      this.addDay();
+    const counter = this.counter;
+
+    for (let d = 0; d < days; d++) {
+      const newBornsOrNewCycle = counter[0];
+      counter[0] = counter[1];
+      counter[1] = counter[2];
+      counter[2] = counter[3];
+      counter[3] = counter[4];
+      counter[4] = counter[5];
+      counter[5] = counter[6];
+      counter[6] = counter[7] + newBornsOrNewCycle;
+      counter[7] = counter[8];
+      counter[8] = newBornsOrNewCycle;
     }
-  };
-
-  addDay = () => {
-    let children = 0;
-    const tomorrowActualSwarm = this.swarm.map((s) => {
-      if (s === 0) {
-        children++;
-        return this.FISH_CYCLE_DAYS;
-      }
-      return s - 1;
-    });
-
-    this.setSwarm(
-      tomorrowActualSwarm.concat(
-        new Array(children).fill(
-          this.FISH_CYCLE_DAYS + this.FIRST_CYCLE_ADDITIONAL_DAYS
-        )
-      )
-    );
   };
 }

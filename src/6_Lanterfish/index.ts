@@ -18,13 +18,13 @@ const initialSwarm = [
 const swarm = new LanterfishSwarm(initialSwarm);
 // after 80 days
 swarm.addDays(80);
-const swarmAfter80Days = swarm.getSwarm().length;
+const swarmAfter80Days = swarm.count();
 
 // after 256 days
-// swarm.addDays(256 - 80);
-// const swarmAfter256Days = swarm.getSwarm().length;
+swarm.addDays(256 - 80);
+const swarmAfter256Days = swarm.count();
 
 console.log({
   swarmAfter80Days,
-  // swarmAfter256Days,
+  swarmAfter256Days,
 });
