@@ -21,10 +21,10 @@ swarm.addDays(80);
 const swarmAfter80Days = swarm.getSwarm().length;
 
 // after 256 days
-swarm.addDays(256 - 80);
-const swarmAfter256Days = swarm.getSwarm().length;
+// swarm.addDays(256 - 80);
+// const swarmAfter256Days = swarm.getSwarm().length;
 
 console.log({
   swarmAfter80Days,
-  swarmAfter256Days,
+  // swarmAfter256Days,
 });

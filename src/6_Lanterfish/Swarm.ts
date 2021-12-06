@@ -30,7 +30,6 @@ export class LanterfishSwarm {
       return s - 1;
     });
 
-    console.log(`children: ${children}`);
     this.setSwarm(
       tomorrowActualSwarm.concat(
         new Array(children).fill(
