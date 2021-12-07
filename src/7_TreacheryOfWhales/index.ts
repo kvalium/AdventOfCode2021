@@ -1,4 +1,7 @@
-import { findLinearFuelConsumption } from "./crabs";
+import {
+  findIncreasingFuelConsumption,
+  findLinearFuelConsumption,
+} from "./crabs";
 
 const crabs = [
   1101, 1, 29, 67, 1102, 0, 1, 65, 1008, 65, 35, 66, 1005, 66, 28, 1, 67, 65,
@@ -67,9 +70,10 @@ const crabs = [
   957, 607, 649, 938, 381, 200, 46,
 ];
 
-const { position, fuelUnits } = findLinearFuelConsumption(crabs);
+const linear = findLinearFuelConsumption(crabs);
+const increasing = findIncreasingFuelConsumption(crabs);
 
 console.log({
-  position,
-  fuelUnits,
+  linear,
+  increasing,
 });

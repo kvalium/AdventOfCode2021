@@ -1,4 +1,5 @@
 import {
+  findIncreasingFuelConsumption,
   // findIncreasingFuelConsumption,
   findLinearFuelConsumption,
 } from "./crabs";
@@ -15,12 +16,12 @@ describe("Day 7 - Treachery of whales", () => {
     });
   });
 
-  // describe("Increasing fuel consumption", () => {
-  //   it("get the lowest amount and position of needed fuel", () => {
-  //     expect(findIncreasingFuelConsumption(fakeCrabs)).toEqual({
-  //       position: 2,
-  //       fuelUnits: 168,
-  //     });
-  //   });
-  // });
+  describe("Increasing fuel consumption", () => {
+    it("get the lowest amount and position of needed fuel", () => {
+      expect(findIncreasingFuelConsumption(fakeCrabs)).toEqual({
+        position: 5,
+        fuelUnits: 168,
+      });
+    });
+  });
 });

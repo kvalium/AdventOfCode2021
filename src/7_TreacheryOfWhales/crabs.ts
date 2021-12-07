@@ -18,3 +18,16 @@ const linearFuelConsumptionToPosition = (crabs: number[], pos: number) =>
 export const findLinearFuelConsumption = findLowestFuelConsumption(
   linearFuelConsumptionToPosition
 );
+
+const increasingFuelConsumptionToPosition = (crabs: number[], pos: number) =>
+  crabs.reduce((sum, c) => {
+    let fuelToPosition = 0;
+    for (let i = 0; i < Math.abs(c - pos); i++) {
+      fuelToPosition += i + 1;
+    }
+    return sum + fuelToPosition;
+  }, 0);
+
+export const findIncreasingFuelConsumption = findLowestFuelConsumption(
+  increasingFuelConsumptionToPosition
+);
