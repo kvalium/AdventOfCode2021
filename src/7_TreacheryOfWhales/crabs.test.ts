@@ -1,6 +1,5 @@
 import {
   findIncreasingFuelConsumption,
-  // findIncreasingFuelConsumption,
   findLinearFuelConsumption,
 } from "./crabs";
 
