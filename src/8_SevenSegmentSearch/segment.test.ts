@@ -1,5 +1,5 @@
-import { countDigits } from "./segment";
-import { parseInput } from "./utils";
+import { countDigits, getSegmentsBySize, getSegmentsForSize } from "./segment";
+import { parseInput, Sensor } from "./utils";
 
 const fakeInput = [
   "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe",
@@ -14,10 +14,61 @@ const fakeInput = [
   "gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce",
 ];
 
+const fakeSensors = parseInput(fakeInput);
+
 describe("Day 8 - Seven Segment Search", () => {
   describe("Count easy digits", () => {
     it("get the lowest amount and position of needed fuel", () => {
-      expect(countDigits(parseInput(fakeInput))).toEqual(26);
+      expect(countDigits(fakeSensors)).toEqual(26);
+    });
+  });
+
+  describe("Segment size", () => {
+    const segmentsBySize = getSegmentsBySize(fakeSensors[0]);
+
+    it("returns expected segments by size", () => {
+      expect(segmentsBySize).toEqual({
+        2: ["be"],
+        3: ["edb"],
+        4: ["cgeb"],
+        5: ["fdcge", "fecdb", "fabcd"],
+        6: ["cbdgef", "fgaecd", "agebfd"],
+        7: ["cfbegad"],
+      });
+    });
+
+    it("get segments for a given size", () => {
+      expect(getSegmentsForSize(segmentsBySize, 2)).toEqual(["b", "e"]);
+      expect(getSegmentsForSize(segmentsBySize, 7)).toEqual([
+        "c",
+        "f",
+        "b",
+        "e",
+        "g",
+        "a",
+        "d",
+      ]);
+    });
+
+    it("throws on invalid segment detected", () => {
+      const invalidSensor: Sensor = {
+        input: [
+          "acedgfbxxx", // <- segment size overflow
+          "cdfbe",
+          "gcdfa",
+          "fbcad",
+          "dab",
+          "cefabd",
+          "cdfgeb",
+          "eafb",
+          "cagedb",
+          "ab",
+        ],
+        output: ["cdfeb", "fcadb", "cdfeb", "cdbaf"],
+      };
+      expect(() => getSegmentsBySize(invalidSensor)).toThrowError(
+        "invalid segment detected"
+      );
     });
   });
 });
