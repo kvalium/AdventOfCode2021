@@ -1,4 +1,4 @@
-import { countDigits, getSegmentsBySize, getSegmentsForSize } from "./segment";
+import { countDigits, getSegmentsBySize, getSensorValue } from "./segment";
 import { parseInput, Sensor } from "./utils";
 
 const fakeInput = [
@@ -24,7 +24,7 @@ describe("Day 8 - Seven Segment Search", () => {
   });
 
   describe("Segment size", () => {
-    const segmentsBySize = getSegmentsBySize(fakeSensors[0]);
+    const segmentsBySize = getSegmentsBySize(fakeSensors[0].input);
 
     it("returns expected segments by size", () => {
       expect(segmentsBySize).toEqual({
@@ -35,19 +35,6 @@ describe("Day 8 - Seven Segment Search", () => {
         6: ["cbdgef", "fgaecd", "agebfd"],
         7: ["cfbegad"],
       });
-    });
-
-    it("get segments for a given size", () => {
-      expect(getSegmentsForSize(segmentsBySize, 2)).toEqual(["b", "e"]);
-      expect(getSegmentsForSize(segmentsBySize, 7)).toEqual([
-        "c",
-        "f",
-        "b",
-        "e",
-        "g",
-        "a",
-        "d",
-      ]);
     });
 
     it("throws on invalid segment detected", () => {
@@ -66,9 +53,29 @@ describe("Day 8 - Seven Segment Search", () => {
         ],
         output: ["cdfeb", "fcadb", "cdfeb", "cdbaf"],
       };
-      expect(() => getSegmentsBySize(invalidSensor)).toThrowError(
+      expect(() => getSegmentsBySize(invalidSensor.input)).toThrowError(
         "invalid segment detected"
       );
+    });
+
+    it("returns sensor value", () => {
+      expect(
+        getSensorValue({
+          input: [
+            "acedgfb",
+            "cdfbe",
+            "gcdfa",
+            "fbcad",
+            "dab",
+            "cefabd",
+            "cdfgeb",
+            "eafb",
+            "cagedb",
+            "ab",
+          ],
+          output: ["cdfeb", "fcadb", "cdfeb", "cdbaf"],
+        })
+      ).toEqual(5353);
     });
   });
 });

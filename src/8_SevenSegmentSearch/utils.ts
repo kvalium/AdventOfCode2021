@@ -1,4 +1,4 @@
-type Input = [
+export type Input = [
   string,
   string,
   string,
@@ -11,7 +11,7 @@ type Input = [
   string
 ];
 
-type Output = [string, string, string, string];
+export type Output = [string, string, string, string];
 
 export type Sensor = {
   input: Input;
