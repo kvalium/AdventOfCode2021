@@ -20,7 +20,12 @@ describe("Day 9 - Smoke bassin", () => {
   });
 
   it("returns lowest points", () => {
-    expect(getLowestSmokeSpots(smokeMap)).toEqual([1, 0, 5, 5]);
+    expect(getLowestSmokeSpots(smokeMap)).toEqual([
+      { value: 1, x: 0, y: 1 },
+      { value: 0, x: 0, y: 9 },
+      { value: 5, x: 2, y: 2 },
+      { value: 5, x: 4, y: 6 },
+    ]);
   });
 
   it("returns risk level", () => {

@@ -1,18 +1,17 @@
 export type SmokeMap = number[][];
-export type SmokeSpot = Record<string, number>;
-export type SmokeSpots = Record<string, number>;
+export type SmokeSpot = { x: number; y: number; value: number };
 
 export const getRiskLevel = (smokeMap: string[]): number =>
-  getLowestSmokeSpots(smokeMap).reduce((sum, s) => sum + s + 1, 0);
+  getLowestSmokeSpots(smokeMap).reduce((sum, s) => sum + s.value + 1, 0);
 
-export const getLowestSmokeSpots = (smokeMap: string[]): number[] => {
+export const getLowestSmokeSpots = (smokeMap: string[]): SmokeSpot[] => {
   const map = getMap(smokeMap);
-  let lowestSpots: any = [];
+  let lowestSpots: SmokeSpot[] = [];
   map.forEach((row, x) => {
     row.forEach((_c, y) => {
       const neighbors = getNeighbors(map, x, y);
       if (neighbors.some((n) => n <= map[x][y])) return;
-      lowestSpots.push(map[x][y]);
+      lowestSpots.push({ x, y, value: map[x][y] });
     });
   });
   return lowestSpots;
