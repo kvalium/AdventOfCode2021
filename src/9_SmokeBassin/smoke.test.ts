@@ -1,4 +1,10 @@
-import { getLowestSmokeSpots, getMap, getRiskLevel } from "./smoke";
+import {
+  get3LargestBasinSizes,
+  getBasinSize,
+  getLowestSmokeSpots,
+  getMap,
+  getRiskLevel,
+} from "./smoke";
 
 const smokeMap = [
   "2199943210",
@@ -30,5 +36,21 @@ describe("Day 9 - Smoke bassin", () => {
 
   it("returns risk level", () => {
     expect(getRiskLevel(smokeMap)).toEqual(15);
+  });
+
+  it("returns bassin size", () => {
+    const map = getMap(smokeMap);
+    const [topLeft, topRight, middle, bottomRight] =
+      getLowestSmokeSpots(smokeMap);
+    expect(getBasinSize(map, topLeft)).toEqual(3);
+    expect(getBasinSize(map, topRight)).toEqual(9);
+    expect(getBasinSize(map, middle)).toEqual(14);
+    expect(getBasinSize(map, bottomRight)).toEqual(9);
+  });
+
+  it("returns 3 largest bassin sizes", () => {
+    const bassinSizes = get3LargestBasinSizes(smokeMap);
+    expect(bassinSizes).toEqual([14, 9, 9]);
+    expect(bassinSizes.reduce((s, b) => s * b, 1)).toEqual(1134);
   });
 });

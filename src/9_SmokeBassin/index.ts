@@ -1,11 +1,10 @@
 import path from "path";
 import { readFile } from "../utils";
-import { getLowestSmokeSpots, getMap, getRiskLevel } from "./smoke";
+import { get3LargestBasinSizes, getRiskLevel } from "./smoke";
 
 const smokeMap = readFile(path.resolve(__dirname, "smokeMap"));
-
+const largestBassins = get3LargestBasinSizes(smokeMap);
 console.log({
-  // map: getMap(smokeMap),
-  // lowest: getLowestSmokeSpots(smokeMap),
   riskLevel: getRiskLevel(smokeMap),
+  threeSize: largestBassins.reduce((s, b) => s * b, 1),
 });
